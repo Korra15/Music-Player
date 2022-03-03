@@ -1,0 +1,58 @@
+.browserslistrc file = preferred browser environments
+
+.editorconfig = editor settings(if present uses the settings preset in thi file)
+  # [*.{js,jsx,ts,tsx,vue}]
+  # indent_style = space
+  # indent_size = 2
+  # end_of_line = lf
+  # trim_trailing_whitespace = true
+  # insert_final_newline = true
+  # max_line_length = 100
+  
+.eslintrc = esLint configuration file
+
+
+<!-- 
+dragstart event is emitted when an element is starting to be dragged 
+dragend emitted when element is no longer being dragged
+dragover = while user is hovering something over the element 
+dragenter = when the user begins to drag something onto the element
+dragleave event emitted when the item that was previously being dragged over the ele is no longer being dragged over item
+drop event emitted when the user has released the element/tet that was being dragged
+-->
+
+<!-- modifiers prevent unexpected behaviour when a file is dropped onto an element -->
+
+Firebase Storage:
+1. Bucket var = placeholder for the current bucket being accessed
+2. match statements == wildcard selections
+3. request.resource.contentType == "audio/mpeg" : request obj = the request being made to the firebase storage service
+                                                  accessing the resource obj = represent the file being uploaded 
+                                                  using the resource to grab the content type of the file
+4. request.resource.contentType.matches("audio/*") : custom function defined by firebae api - aloow us to pass in the type with a wildcard
+5. request.resource.size < 10 * 1024 * 1024 : size measured in bytes here max size allowed = 10MB
+
+
+// Change ui based on if the upload was success/failure :
+// creating properties representating the current status of the upload -
+// binding then to the template and
+// then changing these properties in the appropriate functions
+
+
+/* 2 ways for adding a document to a collection:
+   set funciton = allow us to assign a custom ID to the document
+   add function =  instruct firebase to generate an ID for us */
+
+// when we navigate to another page the component from the previous page will get unmounted (even its children components)
+// vue takes care of cleaning the component data once it is unmounted - allowing menory to be allocated elsewhere
+// does not take care of requests made by the user
+// purpose of mounting a component is to free memory on the user's machine 
+
+// references are a way to select an element in the doc in Js
+// they are not reactive - refs cannot change the vue instance or its data - only access the
+// refs are a way to access the dom elements in our application directly
+
+/* to loop through each song in the home page = 
+   apply the loop component in each iteration and pass down the item in the current iteration to
+   the songItem component */
+
