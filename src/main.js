@@ -1,3 +1,4 @@
+// entry point file - here we initialize the vue application
 import { createApp } from 'vue';
 import App from './App.vue';
 
@@ -8,8 +9,11 @@ import router from './router';
 import store from './store'; // store module being imported - onject that is returned can be used to register our store as a plugin
 import VeeValidatePlugin from './plugins/validation';
 import { auth } from './includes/firebase';
+import Icon from './directives/icon';
 import './assets/tailwind.css';
 import './assets/main.css';
+import i18n from './includes/i18n';
+// i18n obj being imported
 
 let app;
 // to check is the app has already been initialized or not
@@ -18,7 +22,7 @@ let app;
 auth.onAuthStateChanged(() => {
   // if it has been initialized we will not need to do it again
   if (!app) {
-    app = createApp(App);
+    app = createApp(App).use(i18n);
 
     app.use(store); // being registered as a plugin, exposes methods for working with the store
 
@@ -28,6 +32,10 @@ auth.onAuthStateChanged(() => {
 
     app.use(VeeValidatePlugin);
     // registering plugins must be performed before mounting the instance
+
+    app.directive('icon', Icon);
+    // 1st arg = name of the directive all names have v prepended to it
+    // 2nd arg = configuration object
 
     app.mount('#app');
   }

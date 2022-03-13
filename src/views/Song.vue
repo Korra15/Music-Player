@@ -1,76 +1,80 @@
 <template>
+  <main>
+    <!-- <div>
+      {{ $route.params.id }}
+    </div> expression inside -->
 
-  <!-- <div>
-    {{ $route.params.id }}
-  </div> expression inside -->
-
-  <!-- Music Header -->
-  <section class="w-full mb-8 py-14 text-center text-white relative">
-    <div class="absolute inset-0 w-full h-full box-border bg-contain music-bg"
-      style="background-image: url(/assets/img/song-header.png)">
-    </div>
-    <div class="container mx-auto flex items-center">
-      <button type="button" class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full
-        focus:outline-none">
-        <i class="fas fa-play"></i>
-      </button>
-      <div class="z-50 text-left ml-8">
-        <div class="text-3xl font-bold"> {{ song.modifiedName }} </div>
-        <div> {{ song.genre }} </div>
+    <!-- Music Header -->
+    <section class="w-full mb-8 py-14 text-center text-white relative">
+      <div class="absolute inset-0 w-full h-full box-border bg-contain music-bg"
+        style="background-image: url(/assets/img/song-header.png)">
       </div>
-    </div>
-  </section>
-
-  <!-- Form -->
-  <section class="container mx-auto mt-6">
-    <div class="bg-white rounded border border-gray-200 relative flex flex-col">
-      <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
-        <span class="card-title">Comments (15)</span>
-        <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
+      <div class="container mx-auto flex items-center">
+        <button type="button" class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full
+          focus:outline-none" @click.prevent="newSong(song)">
+          <!-- passing on song data to the newSong action function -->
+          <i class="fas"
+            :class="{ 'fa-play': !playing, 'fa-pause': playing }"></i>
+        </button>
+        <div class="z-50 text-left ml-8">
+          <div class="text-3xl font-bold"> {{ song.modifiedName }} </div>
+          <div> {{ song.genre }} </div>
+        </div>
       </div>
-      <div class="p-6">
-        <div class="text-white text-center font-bold p-4 mb-4"
-          v-if="commentShowAlert"
-          :class="commentAlertVariant">
-          {{ commentAlertMessage }}
+    </section>
+
+    <!-- Form -->
+    <section class="container mx-auto mt-6" id="comments">
+      <div class="bg-white rounded border border-gray-200 relative flex flex-col">
+        <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
+          <span class="card-title">Comments ({{ song.commentCount }})</span>
+          <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
+        </div>
+        <div class="p-6">
+          <div class="text-white text-center font-bold p-4 mb-4"
+            v-if="commentShowAlert"
+            :class="commentAlertVariant">
+            {{ commentAlertMessage }}
+          </div>
+
+          <vee-form :validation-schema="schema" @submit="addComment"
+            v-if="userLoggedIn">
+            <vee-field as="textarea" name="comment"
+              class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
+                duration-500 focus:outline-none focus:border-black rounded mb-4"
+              placeholder="Your comment here..."> </vee-field>
+              <ErrorMessage class="text-red-600" name="comment" />
+            <button type="submit" class="py-1.5 px-3 rounded text-white bg-green-600"
+              :disabled="commentInSubmission">
+              Submit
+            </button>
+          </vee-form>
+
+          <select v-model="sort"
+            class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition
+            duration-500 focus:outline-none focus:border-black rounded">
+            <option value="1">Latest</option>
+            <option value="2">Oldest</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comments -->
+    <ul class="container mx-auto">
+      <li class="p-6 bg-gray-50 border border-gray-200"
+        v-for="comment in sortedComments" :key="comment.docId">
+        <!-- Comment Author -->
+        <div class="mb-5">
+          <div class="font-bold">{{ comment.name}}</div>
+          <time>{{ comment.datePosted }}</time>
         </div>
 
-        <vee-form :validation-schema="schema" @submit="addComment"
-          v-if="userLoggedIn">
-          <vee-field as="textarea" name="comment"
-            class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition
-              duration-500 focus:outline-none focus:border-black rounded mb-4"
-            placeholder="Your comment here..."> </vee-field>
-            <ErrorMessage class="text-red-600" name="comment" />
-          <button type="submit" class="py-1.5 px-3 rounded text-white bg-green-600"
-            :disabled="commentInSubmission">
-            Submit
-          </button>
-        </vee-form>
-        <select
-          class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition
-          duration-500 focus:outline-none focus:border-black rounded">
-          <option value="1">Latest</option>
-          <option value="2">Oldest</option>
-        </select>
-      </div>
-    </div>
-  </section>
-
-  <!-- Comments -->
-  <ul class="container mx-auto">
-    <li class="p-6 bg-gray-50 border border-gray-200"
-      v-for="comment in comments" :key="comment.docId">
-      <!-- Comment Author -->
-      <div class="mb-5">
-        <div class="font-bold">{{ comment.name}}</div>
-        <time>{{ comment.datePosted }}</time>
-      </div>
-
-      <p> {{ comment.content }}</p>
-    </li>
-    <!-- we're using the names given to properties to access the proper values in the database -->
-  </ul>
+        <p> {{ comment.content }}</p>
+      </li>
+      <!-- we're using the names given to properties to access the proper values in the database -->
+    </ul>
+  </main>
 
 </template>
 
@@ -78,7 +82,7 @@
 import { songsCollection, auth, commentsCollection } from '@/includes/firebase';
 // need it to request song data from firebase
 
-import { mapState } from 'vuex';
+import { mapState, mapActions, mapGetters } from 'vuex';
 // need mapState function to map the state to the computed property
 
 export default {
@@ -94,12 +98,34 @@ export default {
       commentAlertVariant: 'bd-blue-500',
       commentAlertMessage: 'Please wait! Your comment is being submitted',
       comments: [],
+      sort: '1',
+      // 1 = latest to oldest - desc order of dates
     };
   },
 
   computed: {
     ...mapState(['userLoggedIn']),
     // function expects an array of state properties we will like to map
+
+    ...mapGetters(['playing']),
+
+    sortedComments() {
+      // this computed property will return the comments sorted array
+      // const sortedArray = this.comments.sort();
+      // sort method directly affects the array it is called on
+
+      return this.comments.slice().sort((a, b) => {
+        // both param = obj from the array
+        if (this.sort === '1') {
+          return new Date(b.datePosted) - new Date(a.datePosted);
+        }
+
+        return new Date(a.datePosted) - new Date(b.datePosted);
+      });
+      // clice method will return a new array
+      // this.comments.sort(); changes the array (thus we cannot also assign it with another var)=
+      // = computed properties should not change the data properties
+    },
   },
 
   async created() {
@@ -113,12 +139,24 @@ export default {
       return;
     }
 
+    const { sort } = this.$route.query;
+    // every component is injected with the route object
+
+    this.sort = sort === '1' || sort === '2' ? sort : '1';
+
     this.song = docSnapshot.data();
     this.getComments();
     // code outsources
   },
 
   methods: {
+    ...mapActions(['newSong']),
+    // defined as an action as this function manipulates a state
+    // helps map the newSong function from the store to the component
+    // and the song data will be stored in the state
+    // accepts an array of actions we want to map
+    // this adds the action to the component
+
     async addComment(values, { resetForm }) {
       // async as a db opertaion
       // values arg represents the fields we have in the form
@@ -143,6 +181,12 @@ export default {
 
       await commentsCollection.add(comment);
       // await as it is a promise
+
+      this.song.commentCount += 1;
+      await songsCollection.doc(this.$route.params.id).update({
+        commentCount: this.song.commentCount,
+      });
+      // ref are how we can interact with the doc in the database
 
       this.getComments();
 
@@ -174,6 +218,24 @@ export default {
         // push method on the comments data property
       ]);
       // accepts a callback fun - provided the current documant in the iteration
+    },
+  },
+
+  watch: {
+    sort(newVal) {
+      if (newVal === this.$route.query.sort) {
+        return;
+      }
+
+      // newVal of the property we are watching
+      this.$router.push({
+        query: {
+          sort: newVal,
+        },
+      });
+      // query proerty used to add the query parameters(qp)
+      // qp uese the key value sys
+      // push function = accepts the obj with the changes we want to make to the current route
     },
   },
 };
