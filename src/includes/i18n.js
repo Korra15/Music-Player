@@ -37,4 +37,19 @@ export default createI18n({
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en',
   messages: loadLocaleMessages(),
   // messages property = where we can define the transitions - expects an obj
+  numberFormats: {
+    en: {
+      currency: {
+        // holds the settings for how the lib should hold translate the str
+        style: 'currency', // tells how numbers will be formatted
+        currency: 'USD', // supported currency code
+      },
+    },
+    ja: {
+      currency: { style: 'currency', currency: 'JPY' },
+    },
+    hi: {
+      currency: { style: 'currency', currency: 'INR' },
+    },
+  },
 });

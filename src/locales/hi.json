@@ -1,5 +1,12 @@
 {
   "home": {
     "listen": "महान संगीत सुनें !"
+  },
+  "register": {
+    "accept": "",
+    "tos": ""
+  },
+  "song": {
+    "comment_count": ""
   }
 }
