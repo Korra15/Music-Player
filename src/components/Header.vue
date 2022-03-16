@@ -33,6 +33,15 @@
             </li>
           </template>
         </ul>
+
+        <!-- translation menu on the right side(ml-auto-class) -->
+        <ul class="flex flex-row mt-1 ml-auto">
+          <li>
+            <a class="px-2 text-white" href="#" @click.prevent="changeLocale">
+              {{ currenctLocale }}
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
@@ -57,9 +66,13 @@ export default {
   computed: {
     ...mapState(['userLoggedIn']),
     // function requires to pass an array of state properties we want getter function for
+    currenctLocale() {
+      return this.$i18n.locale === 'hi' ? 'Hindi' : 'English';
+    },
   },
   methods: {
     ...mapMutations(['toggleAuthModal']),
+
     // toggleAuthModal() {
     //   // defining a function calling the function that will perform the actual mutation
     //  this.$store.commit('toggleAuthModal');
@@ -74,6 +87,7 @@ export default {
 
     // not an action as does not affect the state here
     // here as an action - to demonstrate only
+
     signout() {
       // passing the router object as part of payload to prevent dependency cycle
       this.$store.dispatch('signout', {
@@ -91,6 +105,10 @@ export default {
       // if (this.$route.meta.requiresAuth) {
       //   this.$router.push({ name: 'home' });
       // }
+    },
+
+    changeLocale() {
+      this.$i18n.locale = this.$i18n.locale === 'hi' ? 'en' : 'hi';
     },
   },
 };
