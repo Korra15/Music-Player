@@ -12,9 +12,8 @@ import { auth } from './includes/firebase';
 import Icon from './directives/icon';
 import './assets/tailwind.css';
 import './assets/main.css';
-import i18n from './includes/i18n'; // i18n obj being imported
-import './registerServiceWorker';
-// not being assignes to a variable - imported so that the code inside will run
+import i18n from './includes/i18n';
+// i18n obj being imported
 
 let app;
 // to check is the app has already been initialized or not

@@ -30,6 +30,7 @@ export default createStore({
     duration: '00:00',
     playerProgress: '0%',
   },
+
   mutations: { // must come in the form of a function inside this object
     toggleAuthModal: (state) => { // used arrow functions
       state.authModalShow = !state.authModalShow;
