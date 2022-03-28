@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue';
-import About from '@/views/About.vue';
-import Manage from '@/views/Manage.vue';
 import store from '@/store';
-import Song from '@/views/Song.vue';
+
+// we do this because the router requires us to require the components in the records
+// import Home from '@/views/Home.vue';
+// import About from '@/views/About.vue';
+// import Manage from '@/views/Manage.vue';
+// import Song from '@/views/Song.vue';
 
 // navigation guards = protecting our routes - perform checks on req before rendering a component
 // prevents anu unathorized user to access a particular route without proper permissions
@@ -15,6 +17,12 @@ import Song from '@/views/Song.vue';
 
 // named routes = routes - assigned names to reference them in other parts of the application
 // route with name == referenced by its name rather than its path
+
+const Home = () => import('@/views/Home.vue');
+// file passed in will be made a chunk automatically
+const About = () => import('@/views/About.vue');
+const Manage = () => import(/* webpackChunkName: "groupedChunk" */'@/views/Manage.vue');
+const Song = () => import(/* webpackChunkName: "groupedChunk" */'@/views/Song.vue');
 
 const routes = [
   {

@@ -18,6 +18,11 @@ import './registerServiceWorker';
 // not being assigend to any var
 // being imported so that the code inside will run
 import GlobalComponents from './plugins/_globals';
+import ProgressBar from './includes/progress-bar';
+import 'nprogress/nprogress.css';
+
+ProgressBar(router);
+// making the router obj accessible
 
 let app;
 // to check is the app has already been initialized or not

@@ -8,15 +8,17 @@
 import { createStore } from 'vuex';
 // createStore function being imported
 
-import auth from './modules/auth';
-import player from './modules/player';
+// import auth from './modules/auth';
+// import player from './modules/player';
+import modules from './modules';
 
 export default createStore({
   // returns an object that acts as a container for our data
   // passing in 4 additional objects
-  modules: {
-    auth, player,
-  },
+  // modules: {
+  //   auth, player,
+  // },
+  modules,
 });
 
 // RootState obj

@@ -91,6 +91,7 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 // need mapState function to map the state to the computed property
 
 export default {
+  /* eslint-disable no-param-reassign */
   name: 'Song',
   data() {
     return {
@@ -135,25 +136,30 @@ export default {
     },
   },
 
-  async created() {
-    const docSnapshot = await songsCollection.doc(this.$route.params.id).get();
+  // async created() {
+  async beforeRouteEnter(to, from, next) {
+    const docSnapshot = await songsCollection.doc(to.params.id).get();
     // doc function will retrieve a single document by its ID
     // where fun could also be used = more flexible - can return multiple docs
 
-    if (!docSnapshot.exists) {
-      // to make sure the page does not get loaded when the song is invalid
-      this.$router.push({ name: 'home' });
-      return;
-    }
+    next((vm) => { // passing in a callback function
+      // after component has been loaded = access the components data via the vm parameter
+      // (context to the component)
+      if (!docSnapshot.exists) {
+        // to make sure the page does not get loaded when the song is invalid
+        vm.$router.push({ name: 'home' });
+        return;
+      }
 
-    const { sort } = this.$route.query;
-    // every component is injected with the route object
+      const { sort } = vm.$route.query;
+      // every component is injected with the route object
 
-    this.sort = sort === '1' || sort === '2' ? sort : '1';
+      vm.sort = sort === '1' || sort === '2' ? sort : '1';
 
-    this.song = docSnapshot.data();
-    this.getComments();
-    // code outsources
+      vm.song = docSnapshot.data();
+      vm.getComments();
+      // code outsources
+    });
   },
 
   methods: {
