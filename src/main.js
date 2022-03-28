@@ -17,7 +17,7 @@ import i18n from './includes/i18n'; // i18n obj being imported
 import './registerServiceWorker';
 // not being assigend to any var
 // being imported so that the code inside will run
-import GlobalComponents from './includes/_globals';
+import GlobalComponents from './plugins/_globals';
 
 let app;
 // to check is the app has already been initialized or not

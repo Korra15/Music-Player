@@ -2,7 +2,7 @@
   <!-- Auth Modal -->
   <!-- we need to hook the computer property to the modal -->
   <div class="fixed z-10 inset-0 overflow-y-auto" id="modal"
-    :class="{ hidden: !modal}">
+    :class="{ hidden: !authModalShow}">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center
       sm:block sm:p-0">
       <div class="fixed inset-0 transition-opacity">
@@ -70,9 +70,14 @@ export default {
     };
   },
   computed: {
-    ...mapState({ // using alias
-      modal: 'authModalShow',
+    // ...mapState({ // using alias
+    //   modal: 'authModalShow',
+    // }),
+
+    ...mapState({
+      authModalShow: (state) => state.auth.authModalShow,
     }),
+
     // ...mapState(['authModalShow']),
     /* ...mapGetters(['get_authModalShow']),  OR
       get_authModalShow() { // returning the getter function

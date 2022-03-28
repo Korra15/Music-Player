@@ -109,7 +109,9 @@ export default {
   },
 
   computed: {
-    ...mapState(['userLoggedIn']),
+    ...mapState({
+      userLoggedIn: (state) => state.auth.userLoggedIn,
+    }),
     // function expects an array of state properties we will like to map
 
     ...mapGetters(['playing']),

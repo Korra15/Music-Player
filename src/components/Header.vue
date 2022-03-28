@@ -64,7 +64,9 @@ import { mapMutations, mapState } from 'vuex';
 export default {
   name: 'AppHeader',
   computed: {
-    ...mapState(['userLoggedIn']),
+    ...mapState({
+      userLoggedIn: (state) => state.auth.userLoggedIn,
+    }),
     // function requires to pass an array of state properties we want getter function for
     currenctLocale() {
       return this.$i18n.locale === 'hi' ? 'Hindi' : 'English';
@@ -72,6 +74,7 @@ export default {
   },
   methods: {
     ...mapMutations(['toggleAuthModal']),
+    // ...mapMutations('auth', ['toggleAuthModal']), namespaced
 
     // toggleAuthModal() {
     //   // defining a function calling the function that will perform the actual mutation
