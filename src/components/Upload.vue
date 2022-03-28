@@ -68,8 +68,21 @@ export default {
           return;
         }
 
+        if (!navigator.onLine) {
+          this.uploads.push({
+            task: {}, // used to get info about the download
+            currentProgress: 100, // set progressbar width
+            name: file.name,
+            variant: 'bg-red-400', // change progressBar color
+            icon: 'fas fa-times',
+            textClass: 'text-red-400',
+          });
+          return;
+        }
+
         // root storage reference
-        const storageRef = storage.ref(); // ref to storage created, show the path in our storage
+        const storageRef = storage.ref();
+        // ref to storage created, show the path in our storage
         const SongsRef = storageRef.child(`songs/${file.name}`); // child reference for sub-directory
         // child function create a path relative to the parent reference
         // purpose of reference - tell firebase where we like to store the file

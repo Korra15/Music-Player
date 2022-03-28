@@ -26,6 +26,11 @@ const db = firebase.firestore();
 const storage = firebase.storage();
 // ll tasks related to storage can be found under this method
 
+db.enablePersistence().catch((error) => {
+  console.log(`Firebase persistence error ${error.code}`);
+});
+// this fun will tell firebase to keep a copy of the db on the user's browser
+
 const usersCollection = db.collection('users');
 // value = function returns object of methods & properties for working with the user's collection
 const songsCollection = db.collection('songs');

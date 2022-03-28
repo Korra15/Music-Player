@@ -24,7 +24,7 @@ let app;
 auth.onAuthStateChanged(() => {
   // if it has been initialized we will not need to do it again
   if (!app) {
-    app = createApp(App).use(i18n);
+    app = createApp(App).use(i18n).use(i18n);
 
     app.use(store); // being registered as a plugin, exposes methods for working with the store
 
