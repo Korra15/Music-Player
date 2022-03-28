@@ -10,6 +10,6 @@
     "accept": "I accept Music's {0}"
   },
   "song": {
-    "comment_count": "No Comments |1 Comment | {count} Comment"
+    "comment_count": "No Comments |1 Comment | {count} Comments"
   }
 }

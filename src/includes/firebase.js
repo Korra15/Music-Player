@@ -23,13 +23,15 @@ const auth = firebase.auth(); // value = object returned by the firebase.auth fu
 const db = firebase.firestore();
 // firestore function returns an obj with methods & properties for interacting with the db
 
-const storage = firebase.storage();
-// ll tasks related to storage can be found under this method
-
 db.enablePersistence().catch((error) => {
   console.log(`Firebase persistence error ${error.code}`);
 });
-// this fun will tell firebase to keep a copy of the db on the user's browser
+// tells firebase to keep a copy of the db on the user's browser
+// returns a promise
+// does not support authentication, limited storage
+
+const storage = firebase.storage();
+// ll tasks related to storage can be found under this method
 
 const usersCollection = db.collection('users');
 // value = function returns object of methods & properties for working with the user's collection

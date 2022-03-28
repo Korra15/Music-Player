@@ -12,10 +12,12 @@ import { auth } from './includes/firebase';
 import Icon from './directives/icon';
 import './assets/tailwind.css';
 import './assets/main.css';
+
 import i18n from './includes/i18n'; // i18n obj being imported
 import './registerServiceWorker';
 // not being assigend to any var
 // being imported so that the code inside will run
+import GlobalComponents from './includes/_globals';
 
 let app;
 // to check is the app has already been initialized or not
@@ -24,7 +26,7 @@ let app;
 auth.onAuthStateChanged(() => {
   // if it has been initialized we will not need to do it again
   if (!app) {
-    app = createApp(App).use(i18n).use(i18n);
+    app = createApp(App).use(i18n);
 
     app.use(store); // being registered as a plugin, exposes methods for working with the store
 
@@ -34,6 +36,8 @@ auth.onAuthStateChanged(() => {
 
     app.use(VeeValidatePlugin);
     // registering plugins must be performed before mounting the instance
+
+    app.use(GlobalComponents);
 
     app.directive('icon', Icon);
     // 1st arg = name of the directive all names have v prepended to it

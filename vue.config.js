@@ -1,5 +1,5 @@
 module.exports = {
-  // runtimeCompiler: true,
+  runtimeCompiler: true,
   pluginOptions: {
     i18n: {
       locale: 'en',
