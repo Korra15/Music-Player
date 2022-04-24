@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import dummyModule from '@/store/modules/dummy';
+// import dummyModule from '@/store/modules/dummy';
 
-export default {
-  // every component is injected with the store object
-  created() {
-    this.$store.registerModule('dummy', dummyModule);
-    // registerModule = registers an additional module to the store
-  },
-};
+// export default {
+//   // every component is injected with the store object
+//   created() {
+//     this.$store.registerModule('dummy', dummyModule);
+//     // registerModule = registers an additional module to the store
+//   },
+// };
 </script>

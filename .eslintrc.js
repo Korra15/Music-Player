@@ -2,6 +2,7 @@ module.exports = {
   root: true, // tells the root directory of the project
   env: { // it can run in multiple environments - tells esLint where our project will run
     node: true,
+    jest: true,
   },
   extends: [ // allows us to use a predrfined set of rules
     'plugin:vue/vue3-essential',
@@ -20,9 +21,9 @@ module.exports = {
         '**/__tests__/*.{j,t}s?(x)',
         '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
-      env: {
-        jest: true,
-      },
+      // env: {
+      //   jest: true,
+      // },
     },
   ],
 };
